@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            margin:0;
+            padding:0;
+            box-sizing: border-box;
+        }
+        header{
+            border:2px solid black;
+            height:auto;
+            width:100%;
+            display:flex;
+            align-items: center;
+            justify-content:space-around;
+
+
+        }
+        #logo{
+            border:2px solid black;
+            height:55px;
+            width:55px;
+            background-image:url("girl.png");
+            background-repeat:no-repeat;
+            background-size: cover;
+            background-position: center;
+            border-radius: 50%;
+            background-color:rgb(227, 235, 248);
+        }
+        nav{
+            border:2px solid rgb(23, 22, 21);
+            height:40px;
+            width:40%;
+            display:flex;
+            justify-content:space-around;
+            
+            align-items:center;
+            border-radius: 20px;
+            background-color: rgb(227, 235, 248);
+        }
+        nav a{
+            text-decoration:none;
+            color:black;
+        }
+        #navbtn{
+            height: 30px;
+            width: 9%;
+            border-radius: 20px;
+            outline: none;
+            font-weight: bold;
+            background-color:rgb(227, 235, 248);   
+        }
+        #hero{
+            border:2px solid black;
+            /* View Height */
+            height:500px;
+            width:100%;
+            background-image: url(bacg.jpg);
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items:end;
+            justify-content:center;
+        }
+        #hero button{
+            height: 50px;
+            width: 120px;
+            border-radius: 20px;
+            background-color:rgb(227, 235, 248);
+            margin:30px;
+            font-weight: bold;
+        }
+        #main{
+            height:400px;
+            width:100%;
+            border: 2px solid black;
+            display: flex;
+        }
+        #main-l{
+           
+           border-radius: 10px;
+        }
+        #main-r{
+            height:100%;
+            width:50%;
+            background-color: ghostwhite;
+            margin: 1px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div id="logo"></div>
+
+        <nav>
+           <a href="#">Home</a>
+           <a href="#">About</a>
+           <a href="#">Gallery</a>
+
+        </nav>
+        <button id="navbtn">Start</button>
+    </header>
+    <!--hero section-->
+    <section id="hero">
+        <button>Get Started</button>
+    </section>
+
+    <div id="main">
+        <div id="main-l">
+            <img src="https://cdn.potomac.edu/wp-content/uploads/2024/07/web-developer-skills.png" height="397px" width="800px">
+        </div>
+        <div id="main-r">
+            <i><b><u>Lorem ipsum dolor sit amet</u></b> <br>consectetur, adipisicing elit. Omnis dolores, quos blanditiis<br> quibusdam quaerat, harum exercitationem ipsa sapiente officiis eius, minus cupiditate mollitia perspiciatis nisi quasi odit minima sunt! Quidem?<br>
+            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Natus repellendus quisquam consequatur harum minima,<br> pariatur libero eligendi dolor quibusdam. Necessitatibus, nobis itaque facilis accusantium quis iste<br> suscipit nulla asperiores delectus quo officiis saepe earum eum ratione corrupti alias tenetur, placeat debitis error modi vel veritatis! Laboriosam hic voluptate dicta aut!
+        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Atque officia asperiores fuga, voluptatum illo dolorum, inventore ex esse reiciendis iste<br> voluptate qui vero autem ad velit eligendi recusandae voluptatibus sequi eum! Veritatis, ex minus error eveniet,<br> ad quaerat velit laboriosam perferendis eius exercitationem necessitatibus rerum soluta numquam, nesciunt ullam eaque dicta excepturi <br>consequatur officia magnam aut neque at repellat. Repellat laboriosam tempore ducimus cumque quam asperiores, velit aliquid labore distinctio magni, itaque optio sit illo quis. Atque veritatis dolores at, placeat culpa dicta quae consequuntur laboriosam? <br>Quae, quis nihil nisi in sit, harum, provident iste ea est saepe velit natus.</i>
+        </div>
+    </div>
+</body>
+</html>
