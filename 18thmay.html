@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+
+    <style>
+        .container{
+            width:600px;
+            height:650px;
+            background:#d9def5;
+            border-radius:25px;
+            margin-left: 500px;
+            margin-top: 50px;
+            box-shadow:0px 8px 20px rgba(0,0,0,0.2);
+        }
+
+        header{
+            text-align:center;
+            font-size:45px;
+            font-weight:bold;
+            padding-top:35px;
+        }
+
+        .text{
+            width:450px;
+            margin:auto;
+            margin-top:30px;
+            font-size:22px;
+            line-height:38px;
+            color:gray;
+        }
+
+        .star-box{
+            display:flex;
+            justify-content:center;
+            margin-top:30px;
+            gap:15px;
+        }
+        .star{
+            font-size:60px;
+            color:gold;
+        }
+
+        .last-star{
+            color:rgb(185, 182, 182);
+        }
+
+        .box{
+            width:500px;
+            height:130px;
+            border:3px solid lightgray;
+            border-radius:20px;
+            margin:auto;
+            margin-top:30px;
+            background:white;
+            position:relative;
+        }
+
+        .placeholder{
+            margin-top:20px;
+            margin-left:20px;
+            font-size:20px;
+            color:gray;
+        }
+        .placeholder textarea{
+            height:100px;
+            width:450px;
+            border:2px solid white;
+        }
+        .button{
+            width:170px;
+            height:60px;
+            background:#f3cf5a;
+            border-radius:35px;
+            margin-left: 150px;
+            margin-top:35px;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            font-size:30px;
+            color:#333;
+            box-shadow:0px 5px 10px rgba(0,0,0,0.2);
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <header>
+            Rate your experience
+        </header>
+
+        <div class="text">
+            We highly value your feedback! Kindly take a moment to rate your experience and provide us with your valuable feedback.
+        </div>
+
+        <div class="star-box">
+            <div class="star">★ ★ ★ ★</div>
+            
+            <div class="star last-star">★</div>
+        </div>
+
+        <div class="box">
+            <div class="placeholder">
+               <textarea placeholder="Tell us about your experience!"></textarea>
+            </div>
+        <div class="button">
+            Send
+        </div>
+        </div>
+
+       
+
+    </div>
+
+</body>
+</html>
