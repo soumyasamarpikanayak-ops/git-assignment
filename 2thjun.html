@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            margin:0;
+            padding:0;
+            box-sizing: border-box;
+        }
+        #main{
+            height:100vh;
+            width:100%;
+            display: flex;
+           
+        }
+         header{
+            height:65px;
+            width:100%;
+            display:flex;
+            align-items: center;
+            justify-content:space-around;
+            gap:30px;
+            background-color:rgb(234, 232, 232);
+            
+        }
+        #logo{
+            margin-left: 10px;
+            
+            height:55px;
+            width:75px;
+            background-image:url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAT4AAACfCAMAAABX0UX9AAAAb1BMVEX///8AAAB+fn51dXV7e3sXFxegoKBnZ2esrKzf39/r6+s9PT0kJCSYmJjNzc2np6dgYGAdHR339/ePj4/Y2Ni0tLRQUFBcXFyIiIhtbW3m5ua6urrT09PDw8NUVFRFRUUvLy82NjZBQUENDQ0jIyO7Ti2oAAAGL0lEQVR4nO2b6VrqShBFE8AwGYiICqKCet7/GS8Zumr3kGhyRPp8d69fpDsJzbLSQ3VMEkIIIYQQQgghhBBCCCGEEEIIIYQQQgghhBBCCCGEEEIIIYQQQgghhBBCCCHkf8JLsHT7y634V8nSLFBapPRXMRoDuVedpWnAX3Euxahc78ce56umcjAJfPMLXrR/1ooplE9G+SHiv9QmtXCrs6rU9VdUpeBvnPoUSdJx4zM76/QHrQjc6/Azv/bHWdntXNi1WVNs+yuaUvU3CeibooebwFcvrdNHWhG4WXr3+oM/+ufI7VbajZxJOforpFQeuCH6nLhfak1IX5qGnv+r82i38R7rXpKPgD+1N5Lxd4g+J+7h8Q7rS/eX+P1/hxMC6SPU3aez5Oj5U3u75M08v0P03Tvna1fQoi/1B7Zr8+I2UavKn+f7ewJ75edVVTpEnxP36Vpq2vSl84u6GEDW2sI6OFx/+pt3jcmqtxyizz1/31ojFJcX0o8nt4Vm/mAerRkMkBnYG8mlZfwN0OfF/adUtepzJwZXx2tgM3/QqMT4u5NP+bnfM8wtfTd3NZ/jbn3OkI9uoCzPj3jK7NfEfIut/OnNh1NdsVlCk61f0NjTsC0Ha9CHS4QufXID+eqVf1nZFeMIHdnguzbtmkoLN00V+ntLbVx7qG8Ft+/SJ/akQ8j9y6rWrPXwdDkVQxBr+ijJ/EH9rR1/nr0B+jTuZQLz5l9W6VvA8QVdDECadbhRVwb1l1v+8KiZZvfXJyF1ehCR/mX1s3Cjx5cSMYi5NGsrrqZajf6e4LNnD/VhIqZDn8y+i1c56dm7rNb3qccXEjEMXdNu5OecoF7nKerPf3ITS9/94aGinA926JOanc5gHty6Wt8zHF/SRm/22iz9iHMr31/QXmjed0y69Gncr7Vr2zWVjj6Y4sQ1b5ZmnaCNVtIF/Y3SchQO2Qvpe0y69Gncr/Sso9usSt8WDkOJ76uhT8U4kQ7cWZirv8N5NghjtZWc6a0Pg10n482kCfUtYNoCGbIYQGU6OX2yTxJ/t+WRPmlWaqu3Ph1M8S/UTLn9mzVMk5jQFPsrTq7skzZWuVh+s07qq0/j/h0DulmTteqLa8l7K+2aY+LPfkIkY/qT0adxP8bE37iubbMX3jK9FnbAneTA2pZZYvEcI/Zv+j69S4YuT3VtWN5nZNm+g7Ss3GfQuTBs2lgr37K7X8PIC5sPffXp3+rVSl3VY0fQXnSp5pE0rXxodNvwQ0/x8y550B/oOy0r3stuvk0fxP3COqpXfHr8R0blzyQ2MCeAM7E0cIZmrXLY7RB/PRdtGvfVd2Ea0b5suXeq4gEGi/V8Owd9JmUXzvnlMFQafz1TBhr3x/l2+/wuh4Vz2ckRHRG6VHdpki5o7wOqRzDpbfz11Ke+XJzLbuFzVCsO9x0JpJ4/tNkL+eunz90dBZ7ty27xzr/k5Zv4KXhD1U13Zet3rr9++trjvl5woz5Y8a6TiOgIgfNw+MVeh+sP9B0WDRtLnyktv7o97uukC+qDcSWqwdd9RwJZtey0vcunEYwf8/BGZRGcwJVz32WgvKFKulj6YCc6pn029x0JJNdWz5I/UpxZ77eY+CvH6S/3eVFfV9xXHZylD2aFd1dWhrR3fXU+IGvs6QKhHPp8f9U8r5e+rrivotPSh9ssD10/6Hfp+g1VR5859upHB98Q2ht7/fR1xX31Lba+g30YB7DQPK2zEsxLVvOHLGDPjr/pt9+wQn0Q97v6m3UcqgYixxdcHc1LprCBYLYYPtxmbiGlpd02+jNJkF764KhJL8PjfEo8fbpGiaf3gx7FmIFmNkY1ILHXUX+SvuyjD+LezAZxL23j6cPNjlhe0YUmmSUuTBGOTpE9ZTD+NAHXRx98jewLwAkrTx/0IGVyOgbwL2piCEdE86aLGX9tCsfeN96sV33Q9UnGVSdH5fiuBzfQiJo4wu91MhJM2WIsRWN5LLOAvdofJn9ncLuGyXmNNfZKzzeGU2SBt5brJxletnMbNoktb/UVWXC2VcS1Zxgx4f/piWzjgRBCCCGEEEIIIYQQQgghhBBCCCGEEEIIIYQQQgghhBBCCCGEEEIIIYQQQgj5R/gPa+lA6iWsvE4AAAAASUVORK5CYII=");
+            background-repeat:no-repeat;
+            background-size: cover;
+            background-position: center;
+            border-radius:10px;
+            background-color:rgb(234, 232, 232);
+        }
+        nav{
+            
+            height:40px;
+            width:40%;
+            display:flex;
+            justify-content:space-around;
+            
+            align-items:center;
+            border-radius: 20px;
+            background-color: rgb(234, 232, 232);
+        }
+        nav a{
+            text-decoration:none;
+            color:black;
+            font-size:10px;
+            font-weight: bold;
+        }
+        nav n{
+            
+            height:40px;
+            width:30%;
+            display:flex;
+            justify-content:space-around;
+            
+            align-items:center;
+            border-radius: 20px;
+            background-color: rgb(234, 232, 232);
+        }
+        nav n{
+            text-decoration:none;
+            color:black;
+        }
+        #navbtn{
+            height: 30px;
+            width: 9%;
+            border-radius: 20px;
+            outline: none;
+            font-weight: bold;
+            background-color:orange;   
+        }
+        #main-l{
+            /* margin-top:30px; */
+            height:100%;
+            width:50%;
+            
+        }
+        #main-l img{
+            height:700px;
+            width:700px;
+        }
+        #main-r{
+            /* margin-top: 30px; */
+            height:100%;
+            width:50%;
+            
+            display: flex;
+            flex-direction: column;
+        }
+        
+        #up{
+            
+            height:500px;
+            width:750px;
+        }
+        #up h1{
+            font-size:50px;
+            font-weight: bold;
+            margin-top: 10px;
+            margin-left: 10px;
+        }
+        #up h2{
+            font-size:47px;
+            font-weight: bold;
+            margin-top: 10px;
+            margin-left: 10px;
+        }
+        #up h3{
+            font-size:40px;
+            font-weight: bold;
+            margin-top: 10px;
+            margin-left: 10px;
+            color:orange;
+        }
+        #down{
+            display: flex;
+           
+            height:300px;
+            width: 750px;
+        }
+        #r-l{
+           
+            height:300px;
+            width:375px;
+           
+        }
+        #r-l p{
+            font-size:20px;
+            margin-top:20px;
+            margin-left:20px;
+        }
+        #r-r{
+            
+            height:300px;
+            width:375px;
+            
+        }
+        #r-r p{
+            font-size:20px;
+            margin-top:20px;
+            margin-left:20px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div id="logo"></div>
+
+        <nav>
+           <a href="#">EXPLORE</a>
+           <a href="#">ECOSYSTEM</a>
+           <a href="#">AXL TOKEN</a>
+           <a href="#">ABOUT</a>
+           <a href="#">DEVELOPERS</a>
+
+
+        </nav><BR>
+        <nav id="n">
+           <img src="games.png" alt="ball" height="20px" width="20px">
+            <img src="twitter (1).png" alt="insta" height="20px" width="20px">
+            <img src="telegram.png" alt="twitter" height="25px" width="25px">
+            <img src="youtube.png" alt="link" height="25px" width="25px">
+
+        </nav>
+        
+        <button id="navbtn">START BUILDING</button>
+    </header>
+    <div id="main">
+        
+        <div id="main-l">
+            <img src="https://png.pngtree.com/png-vector/20240123/ourmid/pngtree-orange-dotted-circle-png-image_11466206.png" alt="dot">
+        </div>
+        <div id="main-r">
+            <div id="up">
+                <h1>Programmable<br>Interoperability </h1><br><br>
+                <h2>Ethereum has built<br> programmable money.</h2><br><br>
+                <h3>Axelar is building<br>programmable interoperability.</h3>
+            </div>
+           <div id="down">
+            
+            <div id="r-l">
+                <p>Axelar is a programmable<br>interoperability platform architected<br>to scale Web3 for mass adoption.<br>Unlike other cross-chain connectors,<br>Axelar can run samrt-contract logic:<br>it can do anything a blockchain can do-including automations that reduce<br>developer overhead and support<br>one-click user experience.
+                </p>
+            </div>
+            <div id="r-r">
+                <p>The Axelar platform can connect<br>thousands of chains and dApps across<br>all blackchain ecosystems today and<br>as they grow.</p>
+            </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

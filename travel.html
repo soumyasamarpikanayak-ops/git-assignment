@@ -1,0 +1,1033 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wanderlust AI — Your Intelligent Travel Companion</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+ 
+  :root {
+    --sky: #0ea5e9;
+    --sky-dark: #0369a1;
+    --sky-light: #e0f2fe;
+    --sand: #f5f0e8;
+    --sand-dark: #d6cbb5;
+    --terra: #c2663a;
+    --terra-dark: #9a4e2a;
+    --night: #0f172a;
+    --night-mid: #1e293b;
+    --white: #ffffff;
+    --muted: #64748b;
+    --light-border: #e2e8f0;
+    --font-display: 'Playfair Display', Georgia, serif;
+    --font-body: 'Inter', system-ui, sans-serif;
+  }
+ 
+  html { scroll-behavior: smooth; }
+ 
+  body {
+    font-family: var(--font-body);
+    background: var(--white);
+    color: var(--night);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+ 
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1rem 5%;
+    background: rgba(15,23,42,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .nav-logo {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    color: var(--white);
+    letter-spacing: -0.5px;
+  }
+  .nav-logo span { color: var(--sky); }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a {
+    color: rgba(255,255,255,0.75);
+    text-decoration: none;
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--white); }
+  .nav-cta {
+    background: var(--sky);
+    color: var(--white) !important;
+    padding: 0.5rem 1.25rem;
+    border-radius: 6px;
+    font-weight: 600 !important;
+  }
+  .nav-cta:hover { background: var(--sky-dark); }
+  .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+  .hamburger span { width: 24px; height: 2px; background: white; border-radius: 2px; }
+ 
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 50%, #0f172a 100%);
+    display: flex; align-items: center; justify-content: center;
+    position: relative; overflow: hidden; padding-top: 80px;
+  }
+  .hero-bg {
+    position: absolute; inset: 0; overflow: hidden; pointer-events: none;
+  }
+  .hero-bg svg { width: 100%; height: 100%; opacity: 0.12; }
+  .hero-content {
+    text-align: center; z-index: 2; padding: 2rem 5%;
+    max-width: 860px;
+  }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(14,165,233,0.15);
+    border: 1px solid rgba(14,165,233,0.3);
+    color: var(--sky);
+    padding: 0.35rem 1rem;
+    border-radius: 50px; font-size: 0.8rem; font-weight: 600;
+    letter-spacing: 0.05em; text-transform: uppercase;
+    margin-bottom: 1.5rem;
+  }
+  .hero-badge::before { content: '✦'; }
+  .hero h1 {
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    color: var(--white); line-height: 1.1;
+    margin-bottom: 1.25rem;
+  }
+  .hero h1 em { color: var(--sky); font-style: normal; }
+  .hero p {
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    color: rgba(255,255,255,0.65);
+    max-width: 600px; margin: 0 auto 2.5rem;
+  }
+  .hero-actions { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+  .btn-primary {
+    background: var(--sky); color: var(--white);
+    padding: 0.875rem 2rem; border-radius: 8px;
+    font-weight: 600; font-size: 1rem;
+    text-decoration: none; border: none; cursor: pointer;
+    transition: background 0.2s, transform 0.15s;
+    display: inline-block;
+  }
+  .btn-primary:hover { background: var(--sky-dark); transform: translateY(-1px); }
+  .btn-outline {
+    background: transparent; color: var(--white);
+    padding: 0.875rem 2rem; border-radius: 8px;
+    font-weight: 600; font-size: 1rem;
+    text-decoration: none;
+    border: 1px solid rgba(255,255,255,0.3);
+    cursor: pointer; transition: border-color 0.2s, background 0.2s;
+    display: inline-block;
+  }
+  .btn-outline:hover { border-color: rgba(255,255,255,0.7); background: rgba(255,255,255,0.05); }
+ 
+  .hero-stats {
+    display: flex; justify-content: center; gap: 3rem;
+    margin-top: 4rem; flex-wrap: wrap;
+  }
+  .stat { text-align: center; }
+  .stat-num {
+    font-family: var(--font-display);
+    font-size: 2rem; font-weight: 700;
+    color: var(--white);
+  }
+  .stat-label { font-size: 0.8rem; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 0.08em; }
+ 
+  /* ── SECTION WRAPPER ── */
+  section { padding: 6rem 5%; }
+  .section-label {
+    font-size: 0.75rem; font-weight: 600;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--sky); margin-bottom: 0.75rem;
+  }
+  .section-title {
+    font-family: var(--font-display);
+    font-size: clamp(1.75rem, 4vw, 2.75rem);
+    line-height: 1.15; margin-bottom: 1rem;
+  }
+  .section-sub {
+    font-size: 1.05rem; color: var(--muted);
+    max-width: 580px; line-height: 1.7;
+  }
+  .text-center { text-align: center; }
+  .text-center .section-sub { margin: 0 auto; }
+ 
+  /* ── AI TRIP PLANNER ── */
+  #planner { background: var(--sand); }
+  .planner-inner {
+    max-width: 1100px; margin: 0 auto;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center;
+  }
+  .planner-chat {
+    background: var(--white);
+    border-radius: 16px;
+    border: 1px solid var(--light-border);
+    overflow: hidden;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.07);
+  }
+  .chat-header {
+    background: var(--night);
+    padding: 1rem 1.25rem;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .chat-dots { display: flex; gap: 6px; }
+  .chat-dots span { width: 10px; height: 10px; border-radius: 50%; }
+  .chat-dots span:nth-child(1) { background: #ff5f56; }
+  .chat-dots span:nth-child(2) { background: #ffbd2e; }
+  .chat-dots span:nth-child(3) { background: #27c93f; }
+  .chat-title { color: rgba(255,255,255,0.6); font-size: 0.8rem; margin-left: 0.5rem; }
+  .chat-messages { padding: 1.25rem; display: flex; flex-direction: column; gap: 1rem; min-height: 300px; max-height: 380px; overflow-y: auto; }
+  .msg { max-width: 88%; }
+  .msg.user { align-self: flex-end; }
+  .msg-bubble {
+    padding: 0.7rem 1rem; border-radius: 12px;
+    font-size: 0.9rem; line-height: 1.5;
+  }
+  .msg.user .msg-bubble { background: var(--sky); color: white; border-radius: 12px 12px 2px 12px; }
+  .msg.ai .msg-bubble { background: var(--sand); color: var(--night); border-radius: 12px 12px 12px 2px; }
+  .msg-label { font-size: 0.72rem; color: var(--muted); margin-bottom: 4px; }
+  .msg.user .msg-label { text-align: right; }
+  .chat-input-row {
+    border-top: 1px solid var(--light-border);
+    padding: 0.875rem 1.25rem;
+    display: flex; gap: 0.75rem; align-items: center;
+  }
+  #trip-input {
+    flex: 1; border: 1px solid var(--light-border); border-radius: 8px;
+    padding: 0.6rem 0.875rem; font-size: 0.875rem;
+    font-family: var(--font-body); outline: none;
+    transition: border-color 0.2s;
+  }
+  #trip-input:focus { border-color: var(--sky); }
+  .send-btn {
+    background: var(--sky); color: white;
+    border: none; border-radius: 8px;
+    padding: 0.6rem 1rem; cursor: pointer;
+    font-weight: 600; font-size: 0.875rem;
+    transition: background 0.2s;
+    white-space: nowrap;
+  }
+  .send-btn:hover { background: var(--sky-dark); }
+  .send-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+  .typing { display: flex; gap: 4px; align-items: center; padding: 0.5rem 0; }
+  .typing span { width: 7px; height: 7px; border-radius: 50%; background: var(--muted); animation: bounce 1.2s ease infinite; }
+  .typing span:nth-child(2) { animation-delay: 0.2s; }
+  .typing span:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes bounce { 0%,80%,100% { transform: translateY(0); } 40% { transform: translateY(-6px); } }
+ 
+  /* ── DESTINATIONS ── */
+  #destinations { background: var(--white); }
+  .dest-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem; margin-top: 3rem;
+    max-width: 1100px; margin-left: auto; margin-right: auto;
+  }
+  .dest-card {
+    border-radius: 14px; overflow: hidden;
+    border: 1px solid var(--light-border);
+    cursor: pointer; transition: transform 0.2s, box-shadow 0.2s;
+    background: white;
+  }
+  .dest-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(0,0,0,0.1); }
+  .dest-img {
+    height: 200px; position: relative; overflow: hidden;
+    display: flex; align-items: flex-end;
+  }
+  .dest-img svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .dest-img-overlay {
+    position: relative; z-index: 1;
+    padding: 1rem; width: 100%;
+    background: linear-gradient(transparent, rgba(0,0,0,0.55));
+  }
+  .dest-tag {
+    background: rgba(14,165,233,0.9); color: white;
+    font-size: 0.7rem; font-weight: 700;
+    padding: 3px 10px; border-radius: 50px;
+    text-transform: uppercase; letter-spacing: 0.06em;
+    display: inline-block;
+  }
+  .dest-body { padding: 1.25rem; }
+  .dest-name { font-family: var(--font-display); font-size: 1.2rem; margin-bottom: 0.25rem; }
+  .dest-country { font-size: 0.8rem; color: var(--muted); margin-bottom: 0.75rem; }
+  .dest-meta { display: flex; justify-content: space-between; align-items: center; }
+  .dest-price { font-weight: 700; color: var(--terra); font-size: 1.05rem; }
+  .dest-rating { font-size: 0.8rem; color: var(--muted); }
+  .dest-rating::before { content: '★'; color: #f59e0b; margin-right: 3px; }
+ 
+  /* ── FEATURES ── */
+  #features { background: var(--night); }
+  #features .section-title { color: var(--white); }
+  #features .section-label { color: var(--sky); }
+  #features .section-sub { color: rgba(255,255,255,0.55); }
+  .features-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1.5rem; margin-top: 3rem;
+    max-width: 1100px; margin-left: auto; margin-right: auto;
+  }
+  .feature-card {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 14px; padding: 1.75rem;
+    transition: background 0.2s, border-color 0.2s;
+  }
+  .feature-card:hover { background: rgba(255,255,255,0.08); border-color: rgba(14,165,233,0.3); }
+  .feature-icon {
+    width: 48px; height: 48px; border-radius: 12px;
+    background: rgba(14,165,233,0.15);
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 1.25rem;
+    font-size: 1.5rem;
+  }
+  .feature-title { font-size: 1.05rem; font-weight: 600; color: white; margin-bottom: 0.5rem; }
+  .feature-desc { font-size: 0.875rem; color: rgba(255,255,255,0.5); line-height: 1.65; }
+ 
+  /* ── HOW IT WORKS ── */
+  #how { background: var(--sand); }
+  .steps-wrap { max-width: 800px; margin: 3rem auto 0; }
+  .step { display: flex; gap: 2rem; margin-bottom: 2.5rem; align-items: flex-start; }
+  .step-num {
+    flex-shrink: 0; width: 52px; height: 52px;
+    border-radius: 50%; background: var(--sky);
+    display: flex; align-items: center; justify-content: center;
+    color: white; font-family: var(--font-display);
+    font-size: 1.25rem; font-weight: 700;
+  }
+  .step-content h3 { font-size: 1.1rem; font-weight: 600; margin-bottom: 0.4rem; }
+  .step-content p { font-size: 0.9rem; color: var(--muted); line-height: 1.65; }
+  .step-connector { width: 2px; height: 32px; background: var(--sand-dark); margin: 0 25px; }
+ 
+  /* ── TESTIMONIALS ── */
+  #reviews { background: white; }
+  .reviews-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem; margin-top: 3rem;
+    max-width: 1100px; margin-left: auto; margin-right: auto;
+  }
+  .review-card {
+    background: var(--sand);
+    border-radius: 14px; padding: 1.75rem;
+    border: 1px solid var(--sand-dark);
+  }
+  .review-stars { color: #f59e0b; font-size: 1rem; letter-spacing: 2px; margin-bottom: 1rem; }
+  .review-text { font-size: 0.9rem; color: var(--night); line-height: 1.7; margin-bottom: 1.25rem; font-style: italic; }
+  .reviewer { display: flex; align-items: center; gap: 12px; }
+  .reviewer-avatar {
+    width: 42px; height: 42px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 0.875rem; color: white;
+  }
+  .reviewer-name { font-weight: 600; font-size: 0.875rem; }
+  .reviewer-trip { font-size: 0.75rem; color: var(--muted); }
+ 
+  /* ── NEWSLETTER ── */
+  #newsletter {
+    background: linear-gradient(135deg, var(--sky-dark), #0f172a);
+    padding: 5rem 5%;
+    text-align: center;
+  }
+  #newsletter h2 { font-family: var(--font-display); color: white; font-size: clamp(1.75rem, 4vw, 2.5rem); margin-bottom: 1rem; }
+  #newsletter p { color: rgba(255,255,255,0.65); max-width: 480px; margin: 0 auto 2rem; }
+  .sub-form { display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; }
+  .sub-form input {
+    padding: 0.875rem 1.25rem; border-radius: 8px;
+    border: none; font-size: 1rem;
+    font-family: var(--font-body);
+    width: 300px; outline: none;
+  }
+  .sub-form button {
+    background: var(--sky); color: white;
+    border: none; padding: 0.875rem 1.75rem;
+    border-radius: 8px; font-size: 1rem; font-weight: 600;
+    cursor: pointer; transition: background 0.2s;
+  }
+  .sub-form button:hover { background: var(--sky-dark); }
+ 
+  /* ── FOOTER ── */
+  footer {
+    background: var(--night); padding: 3rem 5% 2rem;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+  .footer-grid {
+    display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 2rem; margin-bottom: 2.5rem; max-width: 1100px; margin-left: auto; margin-right: auto;
+  }
+  .footer-brand-name { font-family: var(--font-display); font-size: 1.4rem; color: white; margin-bottom: 0.75rem; }
+  .footer-brand-name span { color: var(--sky); }
+  .footer-desc { font-size: 0.85rem; color: rgba(255,255,255,0.45); line-height: 1.65; }
+  .footer-col h4 { font-size: 0.8rem; font-weight: 600; color: rgba(255,255,255,0.6); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 1rem; }
+  .footer-col ul { list-style: none; }
+  .footer-col ul li { margin-bottom: 0.5rem; }
+  .footer-col ul li a { font-size: 0.875rem; color: rgba(255,255,255,0.4); text-decoration: none; transition: color 0.2s; }
+  .footer-col ul li a:hover { color: white; }
+  .footer-bottom {
+    border-top: 1px solid rgba(255,255,255,0.06);
+    padding-top: 1.5rem; text-align: center;
+    font-size: 0.8rem; color: rgba(255,255,255,0.3);
+    max-width: 1100px; margin: 0 auto;
+  }
+ 
+  /* ── SEARCH BAR ── */
+  .search-section { background: var(--white); padding: 3rem 5%; }
+  .search-box {
+    max-width: 820px; margin: 0 auto;
+    background: var(--night);
+    border-radius: 16px; padding: 2rem;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+  }
+  .search-box h3 { color: white; font-size: 1.1rem; margin-bottom: 1.5rem; font-weight: 500; }
+  .search-grid { display: grid; grid-template-columns: 1fr 1fr 1fr auto; gap: 0.75rem; }
+  .search-field label { font-size: 0.72rem; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 0.08em; display: block; margin-bottom: 0.4rem; }
+  .search-field input, .search-field select {
+    width: 100%; background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.12); border-radius: 8px;
+    color: white; padding: 0.65rem 0.875rem;
+    font-size: 0.875rem; font-family: var(--font-body); outline: none;
+  }
+  .search-field select option { background: var(--night); }
+  .search-btn {
+    background: var(--sky); color: white;
+    border: none; border-radius: 8px;
+    padding: 0 1.5rem; font-weight: 700; font-size: 1rem;
+    cursor: pointer; align-self: flex-end;
+    height: 42px; white-space: nowrap;
+    transition: background 0.2s;
+  }
+  .search-btn:hover { background: var(--sky-dark); }
+ 
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    .nav-links { display: none; }
+    .hamburger { display: flex; }
+    .planner-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+    .search-grid { grid-template-columns: 1fr 1fr; }
+    .search-btn { grid-column: span 2; }
+    .step { flex-direction: column; gap: 1rem; }
+    .step-num { width: 42px; height: 42px; font-size: 1rem; }
+    .step-connector { display: none; }
+  }
+  @media (max-width: 480px) {
+    .footer-grid { grid-template-columns: 1fr; }
+    .hero-stats { gap: 2rem; }
+  }
+ 
+  /* ── SCROLL REVEAL ── */
+  .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.55s ease, transform 0.55s ease; }
+  .reveal.visible { opacity: 1; transform: none; }
+</style>
+</head>
+<body>
+ 
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Wander<span>lust</span> AI</div>
+  <ul class="nav-links">
+    <li><a href="#destinations">Destinations</a></li>
+    <li><a href="#planner">AI Planner</a></li>
+    <li><a href="#features">Features</a></li>
+    <li><a href="#reviews">Reviews</a></li>
+    <li><a href="#planner" class="nav-cta">Plan a Trip</a></li>
+  </ul>
+  <div class="hamburger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+ 
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-bg">
+    <svg viewBox="0 0 1440 800" preserveAspectRatio="xMidYMid slice">
+      <circle cx="200" cy="200" r="300" fill="#0ea5e9" opacity="0.15"/>
+      <circle cx="1200" cy="600" r="400" fill="#0369a1" opacity="0.12"/>
+      <circle cx="900" cy="100" r="200" fill="#0ea5e9" opacity="0.08"/>
+    </svg>
+  </div>
+  <div class="hero-content">
+    <div class="hero-badge">AI-Powered Travel Planning</div>
+    <h1>Explore the World<br>with <em>Intelligence</em></h1>
+    <p>Plan your dream vacation in minutes. Our AI crafts hyper-personalized itineraries based on your style, budget, and passions — then books everything for you.</p>
+    <div class="hero-actions">
+      <a href="#planner" class="btn-primary">Start Planning Free</a>
+      <a href="#destinations" class="btn-outline">Browse Destinations</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat"><div class="stat-num">2.4M+</div><div class="stat-label">Trips Planned</div></div>
+      <div class="stat"><div class="stat-num">190+</div><div class="stat-label">Countries</div></div>
+      <div class="stat"><div class="stat-num">4.9★</div><div class="stat-label">Avg Rating</div></div>
+      <div class="stat"><div class="stat-num">98%</div><div class="stat-label">Satisfaction</div></div>
+    </div>
+  </div>
+</section>
+ 
+<!-- SEARCH BAR -->
+<div class="search-section">
+  <div class="search-box reveal">
+    <h3>🔍 Search Your Next Adventure</h3>
+    <div class="search-grid">
+      <div class="search-field">
+        <label>Destination</label>
+        <input type="text" placeholder="Paris, Bali, New York…" id="s-dest">
+      </div>
+      <div class="search-field">
+        <label>Dates</label>
+        <input type="date" id="s-date">
+      </div>
+      <div class="search-field">
+        <label>Travel Style</label>
+        <select id="s-style">
+          <option>Adventure</option>
+          <option>Luxury</option>
+          <option>Budget</option>
+          <option>Family</option>
+          <option>Romantic</option>
+          <option>Cultural</option>
+        </select>
+      </div>
+      <button class="search-btn" onclick="searchTrip()">Search →</button>
+    </div>
+  </div>
+</div>
+ 
+<!-- DESTINATIONS -->
+<section id="destinations">
+  <div style="max-width:1100px; margin:0 auto;">
+    <div class="section-label">Top Picks</div>
+    <h2 class="section-title">Trending Destinations</h2>
+    <p class="section-sub">Curated by our AI from millions of real traveler experiences and reviews this season.</p>
+  </div>
+  <div class="dest-grid reveal">
+ 
+    <!-- Santorini -->
+    <div class="dest-card">
+      <div class="dest-img" style="background: linear-gradient(135deg,#4fc3f7,#1565c0);">
+        <svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg">
+          <rect width="400" height="200" fill="#1565c0"/>
+          <ellipse cx="200" cy="210" rx="250" ry="80" fill="#0d47a1"/>
+          <rect x="50" y="120" width="60" height="50" rx="6" fill="white"/>
+          <rect x="55" y="110" width="50" height="15" rx="30" fill="#e3f2fd"/>
+          <rect x="130" y="100" width="80" height="70" rx="6" fill="white"/>
+          <rect x="135" y="88" width="70" height="18" rx="35" fill="#bbdefb"/>
+          <rect x="240" y="115" width="55" height="55" rx="6" fill="white"/>
+          <rect x="243" y="104" width="49" height="16" rx="30" fill="#e3f2fd"/>
+          <ellipse cx="200" cy="60" rx="200" ry="55" fill="#29b6f6" opacity="0.4"/>
+          <circle cx="310" cy="45" r="25" fill="#fff9c4" opacity="0.9"/>
+        </svg>
+        <div class="dest-img-overlay"><span class="dest-tag">Island</span></div>
+      </div>
+      <div class="dest-body">
+        <div class="dest-name">Santorini</div>
+        <div class="dest-country">🇬🇷 Greece, Cyclades</div>
+        <div class="dest-meta">
+          <span class="dest-price">From $1,200</span>
+          <span class="dest-rating">4.9 (2.1k reviews)</span>
+        </div>
+      </div>
+    </div>
+ 
+    <!-- Kyoto -->
+    <div class="dest-card">
+      <div class="dest-img" style="background:#ff8a65;">
+        <svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg">
+          <rect width="400" height="200" fill="#bf360c"/>
+          <rect x="0" y="140" width="400" height="60" fill="#4e342e"/>
+          <rect x="160" y="60" width="80" height="80" fill="#d84315"/>
+          <rect x="155" y="55" width="90" height="12" fill="#bf360c"/>
+          <rect x="170" y="43" width="60" height="14" fill="#d84315"/>
+          <rect x="175" y="30" width="50" height="15" fill="#bf360c"/>
+          <rect x="180" y="18" width="40" height="14" fill="#d84315"/>
+          <rect x="185" y="8" width="30" height="12" fill="#bf360c"/>
+          <rect x="50" y="130" width="30" height="50" rx="2" fill="#6d4c41"/>
+          <rect x="100" y="125" width="30" height="55" rx="2" fill="#6d4c41"/>
+          <rect x="270" y="128" width="30" height="52" rx="2" fill="#6d4c41"/>
+          <circle cx="60" cy="100" r="22" fill="#e91e63" opacity="0.7"/>
+          <circle cx="110" cy="95" r="18" fill="#e91e63" opacity="0.6"/>
+          <circle cx="290" cy="102" r="20" fill="#e91e63" opacity="0.65"/>
+          <ellipse cx="200" cy="30" rx="200" ry="40" fill="#ff7043" opacity="0.3"/>
+        </svg>
+        <div class="dest-img-overlay"><span class="dest-tag">Cultural</span></div>
+      </div>
+      <div class="dest-body">
+        <div class="dest-name">Kyoto</div>
+        <div class="dest-country">🇯🇵 Japan, Kansai</div>
+        <div class="dest-meta">
+          <span class="dest-price">From $2,100</span>
+          <span class="dest-rating">4.8 (3.4k reviews)</span>
+        </div>
+      </div>
+    </div>
+ 
+    <!-- Bali -->
+    <div class="dest-card">
+      <div class="dest-img" style="background:#2e7d32;">
+        <svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg">
+          <rect width="400" height="200" fill="#1b5e20"/>
+          <rect x="0" y="150" width="400" height="50" fill="#0d47a1" opacity="0.7"/>
+          <ellipse cx="200" cy="150" rx="220" ry="40" fill="#2e7d32"/>
+          <polygon points="200,30 230,100 170,100" fill="#795548"/>
+          <rect x="188" y="100" width="24" height="50" fill="#795548"/>
+          <circle cx="180" cy="95" r="25" fill="#388e3c"/>
+          <circle cx="220" cy="95" r="25" fill="#2e7d32"/>
+          <circle cx="200" cy="85" r="28" fill="#43a047"/>
+          <circle cx="70" cy="140" r="30" fill="#388e3c"/>
+          <circle cx="330" cy="135" r="28" fill="#2e7d32"/>
+          <circle cx="310" cy="40" r="22" fill="#fff9c4" opacity="0.9"/>
+        </svg>
+        <div class="dest-img-overlay"><span class="dest-tag">Tropical</span></div>
+      </div>
+      <div class="dest-body">
+        <div class="dest-name">Ubud, Bali</div>
+        <div class="dest-country">🇮🇩 Indonesia</div>
+        <div class="dest-meta">
+          <span class="dest-price">From $890</span>
+          <span class="dest-rating">4.9 (4.2k reviews)</span>
+        </div>
+      </div>
+    </div>
+ 
+    <!-- Patagonia -->
+    <div class="dest-card">
+      <div class="dest-img" style="background:#37474f;">
+        <svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg">
+          <rect width="400" height="200" fill="#263238"/>
+          <rect x="0" y="130" width="400" height="70" fill="#1a237e" opacity="0.5"/>
+          <polygon points="100,130 180,60 260,130" fill="#546e7a"/>
+          <polygon points="200,130 280,50 360,130" fill="#78909c"/>
+          <polygon points="0,130 80,75 160,130" fill="#455a64"/>
+          <rect x="155" y="55" width="50" height="30" fill="white" opacity="0.8"/>
+          <polygon points="155,55 180,35 205,55" fill="white" opacity="0.8"/>
+          <ellipse cx="200" cy="25" rx="200" ry="30" fill="#37474f" opacity="0.4"/>
+          <circle cx="350" cy="30" r="18" fill="#fff9c4" opacity="0.7"/>
+        </svg>
+        <div class="dest-img-overlay"><span class="dest-tag">Adventure</span></div>
+      </div>
+      <div class="dest-body">
+        <div class="dest-name">Patagonia</div>
+        <div class="dest-country">🇨🇱 Chile / Argentina</div>
+        <div class="dest-meta">
+          <span class="dest-price">From $1,750</span>
+          <span class="dest-rating">4.7 (1.8k reviews)</span>
+        </div>
+      </div>
+    </div>
+ 
+    <!-- Marrakech -->
+    <div class="dest-card">
+      <div class="dest-img" style="background:#e65100;">
+        <svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg">
+          <rect width="400" height="200" fill="#bf360c"/>
+          <rect x="0" y="120" width="400" height="80" fill="#8d6e63"/>
+          <rect x="30" y="80" width="70" height="80" fill="#d84315"/>
+          <path d="M30,80 Q65,55 100,80" fill="#c62828"/>
+          <rect x="150" y="60" width="100" height="100" fill="#e64a19"/>
+          <path d="M150,60 Q200,30 250,60" fill="#d32f2f"/>
+          <rect x="195" y="30" width="10" height="32" fill="#ffa726"/>
+          <circle cx="200" cy="28" r="7" fill="#ffa726"/>
+          <rect x="290" y="90" width="60" height="70" fill="#d84315"/>
+          <path d="M290,90 Q320,68 350,90" fill="#c62828"/>
+          <circle cx="310" cy="40" r="20" fill="#fff9c4" opacity="0.85"/>
+        </svg>
+        <div class="dest-img-overlay"><span class="dest-tag">Cultural</span></div>
+      </div>
+      <div class="dest-body">
+        <div class="dest-name">Marrakech</div>
+        <div class="dest-country">🇲🇦 Morocco</div>
+        <div class="dest-meta">
+          <span class="dest-price">From $680</span>
+          <span class="dest-rating">4.6 (2.6k reviews)</span>
+        </div>
+      </div>
+    </div>
+ 
+    <!-- New Zealand -->
+    <div class="dest-card">
+      <div class="dest-img" style="background:#1a237e;">
+        <svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg">
+          <rect width="400" height="200" fill="#1a237e"/>
+          <rect x="0" y="140" width="400" height="60" fill="#2e7d32" opacity="0.8"/>
+          <polygon points="50,140 130,80 210,140" fill="#4caf50"/>
+          <polygon points="200,140 290,70 380,140" fill="#388e3c"/>
+          <polygon points="0,140 70,90 140,140" fill="#2e7d32"/>
+          <ellipse cx="200" cy="160" rx="180" ry="25" fill="#29b6f6" opacity="0.4"/>
+          <circle cx="320" cy="40" r="24" fill="white" opacity="0.9"/>
+          <circle cx="335" cy="40" r="20" fill="#1a237e"/>
+          <circle cx="50" cy="35" r="2" fill="white"/>
+          <circle cx="80" cy="50" r="1.5" fill="white"/>
+          <circle cx="30" cy="55" r="1.5" fill="white"/>
+          <circle cx="100" cy="30" r="2" fill="white"/>
+          <circle cx="150" cy="25" r="1.5" fill="white"/>
+        </svg>
+        <div class="dest-img-overlay"><span class="dest-tag">Nature</span></div>
+      </div>
+      <div class="dest-body">
+        <div class="dest-name">Queenstown</div>
+        <div class="dest-country">🇳🇿 New Zealand</div>
+        <div class="dest-meta">
+          <span class="dest-price">From $2,400</span>
+          <span class="dest-rating">4.9 (1.5k reviews)</span>
+        </div>
+      </div>
+    </div>
+ 
+  </div>
+</section>
+ 
+<!-- AI PLANNER -->
+<section id="planner">
+  <div class="planner-inner">
+    <div class="reveal">
+      <div class="section-label">AI Trip Planner</div>
+      <h2 class="section-title">Your Personal AI<br>Travel Concierge</h2>
+      <p class="section-sub">Describe your dream trip in plain language. Our AI understands your preferences, budget, and travel style to craft a personalized itinerary — complete with flights, hotels, and experiences.</p>
+      <br>
+      <ul style="list-style:none; margin-top: 1rem;">
+        <li style="margin-bottom: 0.75rem; display:flex; gap: 10px; align-items: flex-start;">
+          <span style="color: var(--sky); font-size: 1.1rem; margin-top:2px;">✓</span>
+          <span style="font-size: 0.9rem; color: var(--muted);">Day-by-day itinerary crafted in seconds</span>
+        </li>
+        <li style="margin-bottom: 0.75rem; display:flex; gap: 10px; align-items: flex-start;">
+          <span style="color: var(--sky); font-size: 1.1rem; margin-top:2px;">✓</span>
+          <span style="font-size: 0.9rem; color: var(--muted);">Live flight and hotel price comparisons</span>
+        </li>
+        <li style="margin-bottom: 0.75rem; display:flex; gap: 10px; align-items: flex-start;">
+          <span style="color: var(--sky); font-size: 1.1rem; margin-top:2px;">✓</span>
+          <span style="font-size: 0.9rem; color: var(--muted);">Local tips, hidden gems, and safety alerts</span>
+        </li>
+        <li style="display:flex; gap: 10px; align-items: flex-start;">
+          <span style="color: var(--sky); font-size: 1.1rem; margin-top:2px;">✓</span>
+          <span style="font-size: 0.9rem; color: var(--muted);">Instant booking with best-price guarantee</span>
+        </li>
+      </ul>
+    </div>
+    <div class="reveal">
+      <div class="planner-chat">
+        <div class="chat-header">
+          <div class="chat-dots"><span></span><span></span><span></span></div>
+          <span class="chat-title">WanderlustAI — Trip Planner</span>
+        </div>
+        <div class="chat-messages" id="chat-messages">
+          <div class="msg ai">
+            <div class="msg-label">WanderlustAI</div>
+            <div class="msg-bubble">👋 Hi! I'm your AI travel companion. Tell me about your dream trip — where do you want to go, when, and what kind of experience are you looking for?</div>
+          </div>
+        </div>
+        <div class="chat-input-row">
+          <input type="text" id="trip-input" placeholder="E.g. 10 days in Japan, budget ₹1.5L, love food & temples…" onkeypress="handleKey(event)">
+          <button class="send-btn" id="send-btn" onclick="sendMessage()">Send →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+ 
+<!-- FEATURES -->
+<section id="features">
+  <div style="max-width:1100px; margin:0 auto; text-align:center;">
+    <div class="section-label">Why WanderlustAI</div>
+    <h2 class="section-title">Everything You Need<br>in One Platform</h2>
+    <p class="section-sub">From inspiration to booking to on-trip support — we've built the complete travel stack powered by AI.</p>
+  </div>
+  <div class="features-grid reveal">
+    <div class="feature-card">
+      <div class="feature-icon">🗺️</div>
+      <div class="feature-title">Smart Itineraries</div>
+      <div class="feature-desc">AI generates day-by-day plans optimized for your pace, interests, and budget — adjusted in real time.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">✈️</div>
+      <div class="feature-title">Flight Intelligence</div>
+      <div class="feature-desc">Predicts the best time to book, compares 500+ airlines, and alerts you to price drops before you book.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🏨</div>
+      <div class="feature-title">Hotel Matching</div>
+      <div class="feature-desc">Matches hotels to your vibe — boutique, luxury, hostel — and location needs, not just star ratings.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🍜</div>
+      <div class="feature-title">Local Dining Guide</div>
+      <div class="feature-desc">Curated restaurant lists, street food spots, and dietary filters — in every city in the world.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🛡️</div>
+      <div class="feature-title">Travel Safety AI</div>
+      <div class="feature-desc">Real-time safety alerts, travel advisories, and emergency contact support for every destination.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">💬</div>
+      <div class="feature-title">Language Assistant</div>
+      <div class="feature-desc">Instant translation, pronunciation guides, and cultural tips — offline-ready for 120+ languages.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🎒</div>
+      <div class="feature-title">Packing AI</div>
+      <div class="feature-desc">Smart packing lists based on your destination, weather forecast, duration, and activities planned.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">📍</div>
+      <div class="feature-title">Live Trip Support</div>
+      <div class="feature-desc">24/7 AI support during your trip for re-booking, navigating delays, or discovering new plans on the fly.</div>
+    </div>
+  </div>
+</section>
+ 
+<!-- HOW IT WORKS -->
+<section id="how">
+  <div style="max-width:1100px; margin:0 auto; text-align:center;">
+    <div class="section-label">Simple Process</div>
+    <h2 class="section-title">Plan a Trip in 3 Steps</h2>
+    <p class="section-sub">From idea to itinerary in under 2 minutes. No forms, no fuss.</p>
+  </div>
+  <div class="steps-wrap reveal">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-content">
+        <h3>Tell the AI your vision</h3>
+        <p>Chat naturally — describe where you want to go, your budget, travel dates, who you're going with, and what you love to do. No forms required.</p>
+      </div>
+    </div>
+    <div class="step-connector"></div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-content">
+        <h3>Review your personalized itinerary</h3>
+        <p>In seconds, receive a detailed day-by-day plan with flights, hotels, activities, restaurants, and estimated costs — all in one view.</p>
+      </div>
+    </div>
+    <div class="step-connector"></div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-content">
+        <h3>Book everything in one click</h3>
+        <p>Approve your itinerary and book all components instantly. We handle confirmations, reminders, and live support throughout your journey.</p>
+      </div>
+    </div>
+  </div>
+</section>
+ 
+<!-- TESTIMONIALS -->
+<section id="reviews">
+  <div style="max-width:1100px; margin:0 auto; text-align:center;">
+    <div class="section-label">Traveler Stories</div>
+    <h2 class="section-title">Loved by Adventurers<br>Worldwide</h2>
+  </div>
+  <div class="reviews-grid reveal">
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <div class="review-text">"I described my honeymoon idea in one sentence and within a minute had a 10-day Bali & Lombok plan better than anything I could have built myself. Absolutely magical experience."</div>
+      <div class="reviewer">
+        <div class="reviewer-avatar" style="background: var(--sky);">PR</div>
+        <div>
+          <div class="reviewer-name">Priya Rajan</div>
+          <div class="reviewer-trip">Bali Honeymoon · March 2025</div>
+        </div>
+      </div>
+    </div>
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <div class="review-text">"Planned a solo backpacking trip through Southeast Asia on a tight budget. The AI found deals I never would have discovered and warned me about a monsoon I'd timed wrong!"</div>
+      <div class="reviewer">
+        <div class="reviewer-avatar" style="background: var(--terra);">AK</div>
+        <div>
+          <div class="reviewer-name">Arjun Kumar</div>
+          <div class="reviewer-trip">SEA Backpacking · Jan 2025</div>
+        </div>
+      </div>
+    </div>
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <div class="review-text">"Took our family of 5 to Japan. The AI handled kid-friendly restaurant filtering, stroller access info, and even built in nap-time gaps. How does it know so much?!"</div>
+      <div class="reviewer">
+        <div class="reviewer-avatar" style="background: #7c3aed;">SM</div>
+        <div>
+          <div class="reviewer-name">Sunita Mehta</div>
+          <div class="reviewer-trip">Japan Family Tour · Dec 2024</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+ 
+<!-- NEWSLETTER -->
+<div id="newsletter">
+  <h2>Get Destination Inspiration Weekly</h2>
+  <p>Curated travel deals, hidden gems, and AI travel tips — delivered every Friday.</p>
+  <div class="sub-form">
+    <input type="email" placeholder="your@email.com" id="email-sub">
+    <button onclick="subscribe()">Subscribe Free</button>
+  </div>
+  <p id="sub-msg" style="margin-top:1rem; color: #93c5fd; font-size:0.875rem; display:none;"></p>
+</div>
+ 
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-brand-name">Wander<span>lust</span> AI</div>
+      <p class="footer-desc">Your AI-powered travel companion for smarter, richer adventures. Plan, book, and experience the world differently.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Explore</h4>
+      <ul>
+        <li><a href="#destinations">Destinations</a></li>
+        <li><a href="#planner">AI Planner</a></li>
+        <li><a href="#how">How It Works</a></li>
+        <li><a href="#">Travel Guides</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <ul>
+        <li><a href="#">About Us</a></li>
+        <li><a href="#">Careers</a></li>
+        <li><a href="#">Press</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Legal</h4>
+      <ul>
+        <li><a href="#">Privacy Policy</a></li>
+        <li><a href="#">Terms of Service</a></li>
+        <li><a href="#">Cookie Policy</a></li>
+        <li><a href="#">Sitemap</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    © 2025 WanderlustAI. Built with ❤️ for travelers everywhere.
+  </div>
+</footer>
+ 
+<script>
+// ── SCROLL REVEAL ──
+const reveals = document.querySelectorAll('.reveal');
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
+}, { threshold: 0.12 });
+reveals.forEach(el => io.observe(el));
+ 
+// ── HAMBURGER ──
+function toggleMenu() {
+  const links = document.querySelector('.nav-links');
+  if (!links) return;
+  links.style.display = links.style.display === 'flex' ? 'none' : 'flex';
+  links.style.flexDirection = 'column';
+  links.style.position = 'absolute';
+  links.style.top = '65px'; links.style.right = '5%';
+  links.style.background = '#0f172a';
+  links.style.padding = '1rem 1.5rem';
+  links.style.borderRadius = '12px';
+  links.style.border = '1px solid rgba(255,255,255,0.1)';
+}
+ 
+// ── SEARCH ──
+function searchTrip() {
+  const dest = document.getElementById('s-dest').value.trim();
+  const style = document.getElementById('s-style').value;
+  if (!dest) { alert('Please enter a destination!'); return; }
+  const q = `Plan a ${style.toLowerCase()} trip to ${dest}`;
+  document.getElementById('trip-input').value = q;
+  document.getElementById('planner').scrollIntoView({ behavior: 'smooth' });
+  setTimeout(sendMessage, 600);
+}
+ 
+// ── AI CHAT ──
+const SYSTEM = `You are WanderlustAI, an expert travel planning assistant. You help users plan amazing trips with personalized itineraries. Be enthusiastic, helpful, and concise. When someone describes a trip, provide:
+1. A brief 2-3 sentence overview
+2. A quick 3-5 day sample itinerary highlight (bullet points)
+3. Budget estimate range
+4. One pro local tip
+Keep responses friendly and under 200 words. Use emojis sparingly.`;
+ 
+let chatHistory = [];
+ 
+async function sendMessage() {
+  const input = document.getElementById('trip-input');
+  const btn = document.getElementById('send-btn');
+  const msg = input.value.trim();
+  if (!msg) return;
+ 
+  appendMessage('user', 'You', msg);
+  input.value = '';
+  btn.disabled = true;
+ 
+  const typingId = appendTyping();
+  chatHistory.push({ role: 'user', content: msg });
+ 
+  try {
+    const resp = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-6',
+        max_tokens: 1000,
+        system: SYSTEM,
+        messages: chatHistory
+      })
+    });
+    const data = await resp.json();
+    removeTyping(typingId);
+ 
+    const reply = data.content?.[0]?.text || "I'm having trouble connecting right now. Please try again!";
+    chatHistory.push({ role: 'assistant', content: reply });
+    appendMessage('ai', 'WanderlustAI', reply);
+  } catch (err) {
+    removeTyping(typingId);
+    appendMessage('ai', 'WanderlustAI', "Oops! I couldn't connect. Please check your internet and try again.");
+  }
+  btn.disabled = false;
+}
+ 
+function handleKey(e) { if (e.key === 'Enter') sendMessage(); }
+ 
+function appendMessage(role, label, text) {
+  const container = document.getElementById('chat-messages');
+  const div = document.createElement('div');
+  div.className = `msg ${role}`;
+  div.innerHTML = `<div class="msg-label">${label}</div><div class="msg-bubble">${text.replace(/\n/g,'<br>')}</div>`;
+  container.appendChild(div);
+  container.scrollTop = container.scrollHeight;
+}
+ 
+function appendTyping() {
+  const container = document.getElementById('chat-messages');
+  const id = 'typing-' + Date.now();
+  const div = document.createElement('div');
+  div.className = 'msg ai'; div.id = id;
+  div.innerHTML = `<div class="msg-label">WanderlustAI</div><div class="msg-bubble"><div class="typing"><span></span><span></span><span></span></div></div>`;
+  container.appendChild(div);
+  container.scrollTop = container.scrollHeight;
+  return id;
+}
+ 
+function removeTyping(id) {
+  const el = document.getElementById(id);
+  if (el) el.remove();
+}
+ 
+// ── NEWSLETTER ──
+function subscribe() {
+  const email = document.getElementById('email-sub').value.trim();
+  const msg = document.getElementById('sub-msg');
+  if (!email || !email.includes('@')) {
+    msg.textContent = 'Please enter a valid email address.';
+    msg.style.display = 'block'; return;
+  }
+  msg.textContent = '🎉 You\'re subscribed! Your first travel guide arrives Friday.';
+  msg.style.display = 'block';
+  document.getElementById('email-sub').value = '';
+}
+</script>
+</body>
+</html>
